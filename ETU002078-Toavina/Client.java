@@ -11,12 +11,13 @@ public class Client {
 	static PrintWriter out;												///Pour pouvoir ecrire
 	static Scanner sc = new Scanner(System.in);    						///Prendre ce qu il a tapé
 	Accueil a;
+	Fenetre f;
 	String IpServer = "127.0.0.1";
 	int port = 5000;
 	String nomClient;
 
-	public Client(Accueil a,String nom,String serverIp, int port) { 						
-		this.setA(a);
+	public Client(Fenetre f,String nom,String serverIp, int port) { 						
+		this.setF(f);
 		this.IpServer = serverIp;
 		this.port = port;
 		this.setNomClient(nom);
@@ -26,7 +27,7 @@ public class Client {
 	public void sendMessage(String mess) throws Exception
 	{
 		out = new PrintWriter(clientSocket.getOutputStream()); 
-		out.println(this.getNomClient()+"|"+mess);
+		out.println(this.getNomClient()+":"+mess);
 		out.flush();
 	}
 	public void runThread() {										///Lancement du thread qui envoi le mess et afficher le mess 
@@ -44,7 +45,7 @@ public class Client {
 						while(msg != null) {
 							System.out.println(msg);
 							msg = in.readLine();	
-							getA().afficherMessage(msg);
+							getF().afficherMessage(msg);
 						}
 						System.out.println("Serveur déconnecté");
 						out.close();
@@ -134,5 +135,12 @@ public class Client {
 
 	public void setA(Accueil a) {
 		this.a = a;
+	}
+	public Fenetre getF() {
+		return f;
+	}
+
+	public void setF(Fenetre f) {
+		this.f = f;
 	}
 }

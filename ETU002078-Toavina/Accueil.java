@@ -8,7 +8,7 @@ public class Accueil extends JFrame{
 	
     public Accueil(String nom)
     {   
-		this.setClient(new Client(this,nom, "127.0.0.1", 5000));
+		//this.setClient(new Client(this,nom, "127.0.0.1", 5000));
 		setLayout(new FlowLayout());
         setMessage(new JTextField("Entrez votre message ici"));
 		getMessage().setSize(new Dimension(70,20));

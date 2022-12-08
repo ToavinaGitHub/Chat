@@ -21,11 +21,14 @@ public class Login extends JFrame{
 
     public Login()
     {
+        this.setTitle("Login");
         setLayout(new GridLayout(1,2));
         this.setSize(400,20);
         this.setNom(new JTextField());
         this.setBtn(new JButton("OK"));
-        this.getNom().setSize(new Dimension(200,10));
+        this.getNom().setSize(new Dimension(200,100));
+        this.setSize(400,130);
+        this.setResizable(false);
         this.add(getNom());
         add(getBtn());
         this.getNom().setText("Entrez votre nom ici");

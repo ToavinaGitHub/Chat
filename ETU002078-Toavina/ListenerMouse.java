@@ -3,7 +3,7 @@ import java.awt.event.MouseListener;
 public class ListenerMouse implements MouseListener{
     Login login;
     Accueil accueil;
-	
+	Fenetre fenetre;
     public ListenerMouse(Login l)
     {
         this.setLogin(l);
@@ -12,20 +12,34 @@ public class ListenerMouse implements MouseListener{
 	{
 		this.setAccueil(a);
 	}
+	public ListenerMouse(Fenetre f)
+	{
+		this.setFenetre(f);
+	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(getAccueil()==null)
+		if(getAccueil()==null && getFenetre()==null)
 		{
 			if(e.getSource()==getLogin().getBtn())
        		{
-				new Accueil(getLogin().getNom().getText());
-            }
-		}else{
+				//new Accueil(getLogin().getNom().getText());
+				new Fenetre(getLogin().getNom().getText());
+			}
+		}else if(getAccueil()!=null){
 			if(e.getSource()==getAccueil().getBoutton())	
 			{
 				try {
 					getAccueil().getClient().sendMessage(getAccueil().getMessage().getText());
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+		}else if(getFenetre()!=null){
+			if(e.getSource()==getFenetre().getSendMessage())
+			{
+				try {
+					getFenetre().getClient().sendMessage(getFenetre().getMessage().getText());
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
@@ -66,5 +80,10 @@ public class ListenerMouse implements MouseListener{
 	public void setAccueil(Accueil accueil) {
 		this.accueil = accueil;
 	}
-    
+    public Fenetre getFenetre() {
+		return fenetre;
+	}
+	public void setFenetre(Fenetre fenetre) {
+		this.fenetre = fenetre;
+	}
 }

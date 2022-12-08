@@ -29,7 +29,6 @@ public class MultiThread implements Runnable {
 	}
 	@Override
 	public void run() {
-		server.sendToAll(clientName+" s'est connecté.");
 		try {
 			message = in.readLine();
 			clientName = message;
@@ -38,7 +37,6 @@ public class MultiThread implements Runnable {
 				server.sendToAll(message);
 				message = in.readLine();
 			}
-			server.sendToAll(clientName + " s'est deconnecté");
 			out.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
