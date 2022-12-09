@@ -1,7 +1,8 @@
-
+package composant;
 import java.awt.Color;
 import java.awt.Font;
-
+import client.*;
+import server.*;
 import javax.swing.*;
 public class PanelMess extends JTextArea{
 	public PanelMess()

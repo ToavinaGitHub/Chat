@@ -1,1 +1,4 @@
-Dans Main pour executer le Client
+-Les bouttons:
+    - " > " pour envoyer un message(texte)
+    - " + " ajouter un fichier
+    -" >> " envoyer le fichier

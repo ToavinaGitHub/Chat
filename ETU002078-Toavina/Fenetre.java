@@ -1,16 +1,32 @@
+package composant;
 import java.awt.*;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.HeadlessException;
-
+import controller.*;
 import javax.swing.*;
-
+import client.*;
+import server.*;
 public class Fenetre extends JFrame{
     Client client;
 	PanelMess box;
 	JTextField message;
 	JButton sendMessage;
+	JButton sendFile;
+	JButton sendFileBtn;
 
+	public JButton getSendFileBtn() {
+		return sendFileBtn;
+	}
+	public void setSendFileBtn(JButton sendFileBtn) {
+		this.sendFileBtn = sendFileBtn;
+	}
+	public JButton getSendFile() {
+		return sendFile;
+	}
+	public void setSendFile(JButton sendFile) {
+		this.sendFile = sendFile;
+	}
     public Client getClient() {
 		return client;
 	}
@@ -48,9 +64,15 @@ public class Fenetre extends JFrame{
 		JPanel temp = new JPanel();
 		this.setMessage(new JTextField("                                                                 "));
 		this.setSendMessage(new JButton(">"));
+		this.setSendFile(new JButton("+"));
+		this.setSendFileBtn(new JButton(">>"));
+		this.getSendFileBtn().addMouseListener(new ListenerMouse(this));
+		this.getSendFile().addMouseListener(new ListenerMouse(this));
 		temp.setLayout(new FlowLayout());
 		temp.add(this.getMessage());
 		temp.add(this.getSendMessage());
+		temp.add(this.getSendFile());
+		temp.add(this.getSendFileBtn());
 		/*-----------------*/
 		JPanel user = new JPanel();
         user.setSize(300,50);
@@ -59,6 +81,7 @@ public class Fenetre extends JFrame{
         userName.setFont(new Font("Consolas",Font.PLAIN,20));
         userName.setForeground(Color.red);
 		user.add(BorderLayout.CENTER,userName);
+		
 		/*-----------------*/
 		this.add(BorderLayout.SOUTH,temp);
 		this.add(BorderLayout.NORTH,user);

@@ -1,16 +1,18 @@
+package client;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
-
+import server.*;
+import composant.*;
 public class Client {
 	static Socket clientSocket;      
 	static BufferedReader in;       									///Lire ce qu'il a ecrit
 	static PrintWriter out;												///Pour pouvoir ecrire
 	static Scanner sc = new Scanner(System.in);    						///Prendre ce qu il a tapé
-	Accueil a;
+	
 	Fenetre f;
 	String IpServer = "127.0.0.1";
 	int port = 5000;
@@ -24,11 +26,40 @@ public class Client {
 		Scanner sc = new Scanner(System.in);
 		runThread();
 	}
-	public void sendMessage(String mess) throws Exception
+	public void sendMessage(String mess,boolean isFile) throws Exception
 	{
-		out = new PrintWriter(clientSocket.getOutputStream()); 
-		out.println(this.getNomClient()+":"+mess);
-		out.flush();
+		if(isFile==false)
+		{
+			out = new PrintWriter(clientSocket.getOutputStream()); 
+			out.println(this.getNomClient()+":"+mess);
+			out.flush();
+		}else{
+			this.SendFile(mess);
+		}	
+	}
+	public void SendFile(String nomFile) throws Exception
+	{
+		File myfile = new File(nomFile);
+		int filesize = (int)myfile.length();
+		
+		OutputStream here = clientSocket.getOutputStream();
+		out = new PrintWriter(clientSocket.getOutputStream(),true);
+		
+		BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myfile));
+		Scanner sc =new Scanner(clientSocket.getInputStream());
+		
+		out.println(nomFile);
+		out.println(filesize);
+		
+		byte[]  filebyte = new byte[filesize];
+		
+		bis.read(filebyte,0,filebyte.length);
+		here.write(filebyte,0,filebyte.length);
+		
+		System.out.println(sc.nextLine());
+
+		here.flush();
+		clientSocket.close();
 	}
 	public void runThread() {										///Lancement du thread qui envoi le mess et afficher le mess 
 		try {
@@ -47,7 +78,6 @@ public class Client {
 							msg = in.readLine();	
 							getF().afficherMessage(msg);
 						}
-						System.out.println("Serveur déconnecté");
 						out.close();
 					} catch (IOException e) {}
 				}
@@ -129,13 +159,7 @@ public class Client {
 		this.nomClient = nomClient;
 	}
 
-	public Accueil getA() {
-		return a;
-	}
-
-	public void setA(Accueil a) {
-		this.a = a;
-	}
+	
 	public Fenetre getF() {
 		return f;
 	}

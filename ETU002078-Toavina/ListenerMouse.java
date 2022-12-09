@@ -1,17 +1,18 @@
+package controller;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.*;
+import java.io.*;
+import client.*;
+import server.*;
+import composant.*;
 public class ListenerMouse implements MouseListener{
     Login login;
-    Accueil accueil;
 	Fenetre fenetre;
     public ListenerMouse(Login l)
     {
         this.setLogin(l);
     }
-	public ListenerMouse(Accueil a)
-	{
-		this.setAccueil(a);
-	}
 	public ListenerMouse(Fenetre f)
 	{
 		this.setFenetre(f);
@@ -19,30 +20,48 @@ public class ListenerMouse implements MouseListener{
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if(getAccueil()==null && getFenetre()==null)
+		if(getFenetre()==null)
 		{
 			if(e.getSource()==getLogin().getBtn())
        		{
-				//new Accueil(getLogin().getNom().getText());
 				new Fenetre(getLogin().getNom().getText());
-			}
-		}else if(getAccueil()!=null){
-			if(e.getSource()==getAccueil().getBoutton())	
-			{
-				try {
-					getAccueil().getClient().sendMessage(getAccueil().getMessage().getText());
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
 			}
 		}else if(getFenetre()!=null){
 			if(e.getSource()==getFenetre().getSendMessage())
 			{
 				try {
-					getFenetre().getClient().sendMessage(getFenetre().getMessage().getText());
+					
+					getFenetre().getClient().sendMessage(getFenetre().getMessage().getText(),false);
 				} catch (Exception ex) {
 					ex.printStackTrace();
 				}
+			}
+			else if(e.getSource()==getFenetre().getSendFileBtn())
+			{
+				try {
+					getFenetre().getClient().sendMessage(getFenetre().getMessage().getText(),true);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			else if(e.getSource()==getFenetre().getSendFile()){
+				JFileChooser fc=new JFileChooser();    
+				int i=fc.showOpenDialog(getFenetre());    
+				if(i==JFileChooser.APPROVE_OPTION){    
+					File f=fc.getSelectedFile();    
+					String filepath=f.getPath();    
+					try{  
+					BufferedReader br=new BufferedReader(new FileReader(filepath));    
+					String s1="",s2="";                         
+					while((s1=br.readLine())!=null){    
+						s2+=s1+"\n";    
+					}    
+					getFenetre().getMessage().setText(f.getName());  
+					br.close();    
+					}catch (Exception ex) {ex.printStackTrace();  }  
+       
+				}    
+				
 			}
 		}
 	}
@@ -74,12 +93,7 @@ public class ListenerMouse implements MouseListener{
 	public void setLogin(Login login) {
 		this.login = login;
 	}
-	public Accueil getAccueil() {
-		return accueil;
-	}
-	public void setAccueil(Accueil accueil) {
-		this.accueil = accueil;
-	}
+	
     public Fenetre getFenetre() {
 		return fenetre;
 	}

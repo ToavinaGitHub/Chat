@@ -1,8 +1,11 @@
+package composant;
 import javax.swing.*;
 import java.awt.*;
 import java.net.*;
+import client.*;
+import server.*;
 public class Accueil extends JFrame{
-    Client client;
+   
 	JTextField message;
     JButton boutton;
 	
@@ -17,7 +20,7 @@ public class Accueil extends JFrame{
 		this.add(getMessage());
 		this.add(getBoutton());
 
-		getBoutton().addMouseListener(new ListenerMouse(this));
+	//	getBoutton().addMouseListener(new ListenerMouse(this));
         
 		setSize(400,800);
         setVisible(true);
@@ -36,12 +39,7 @@ public class Accueil extends JFrame{
 	public void setBoutton(JButton boutton) {
 		this.boutton = boutton;
 	}
-	public Client getClient() {
-		return client;
-	}
-	public void setClient(Client client) {
-		this.client = client;
-	}
+	
 	public void afficherMessage(String mess)
 	{
 		JLabel lab1 = new JLabel(mess);

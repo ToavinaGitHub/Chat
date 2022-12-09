@@ -1,5 +1,9 @@
+package composant;
 import javax.swing.*;
 import java.awt.*;
+import client.*;
+import server.*;
+import controller.*;
 public class Login extends JFrame{
     JTextField nom;
     JButton btn;
